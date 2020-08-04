@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 import LogoImg from "../../assets/images/logo.svg";
 import LandingImg from "../../assets/images/landing.svg";
@@ -26,14 +27,14 @@ const Landing = () => {
         </LogoContainer>
         <HeroImage src={LandingImg} alt="Plataforma de estudos" />
         <ButtonsContainer>
-          <a  href="#">
+          <Link  to="study">
               <img src={StudyIcon} alt="estudar"/>
               Estudar
-          </a>
-          <a  href="#">
+          </Link>
+          <Link  to="give-classes">
               <img src={GiveClassesIcon} alt="Dar aulas"/>
               Dar aulas
-          </a>
+          </Link>
         </ButtonsContainer>
         <TotalConnections>
             Total de 200 conexões já realizadas <img src={PurpleHeartIcon} alt="Coração roxo"/>
