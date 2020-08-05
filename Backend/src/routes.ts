@@ -1,10 +1,9 @@
 import { Router } from "express";
 
+import ClassesController from "./app/controllers/ClassesController";
+
 const routes = Router()
 
-routes.get("/users", (req, res) => {
-  console.log(req.body);
-  res.json({ ok: true });
-});
+routes.post("/classes", ClassesController.store);
 
 export default routes
