@@ -1,12 +1,6 @@
-import express from "express";
+import App from './app'
+import app from './app'
 
-const app = express();
+const port = 3333
 
-app.use(express.json());
-
-app.get("/users", (req, res) => {
-  console.log(req.body);
-  res.json({ ok: true });
-});
-
-app.listen(3333);
+app.listen(port)
