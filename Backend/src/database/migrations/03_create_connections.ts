@@ -12,7 +12,10 @@ export const up = async (Knex: knex) =>
       .onUpdate("CASCADE")
       .onDelete("CASCADE");
 
-    table.timestamp("created_at").defaultTo("now()").notNullable();
+    table
+      .timestamp("created_at")
+      .defaultTo(Knex.raw("CURRENT_TIMESTAMP"))
+      .notNullable();
   });
 
 export const down = async (Knex: knex) => Knex.schema.dropTable("connections");

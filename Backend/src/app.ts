@@ -1,4 +1,5 @@
 import express from "express";
+import cors from "cors";
 
 import routes from "./routes";
 
@@ -11,7 +12,8 @@ class App {
   }
 
   midlewares(): void {
-    this.app.use(express.json())
+    this.app.use(express.json());
+    this.app.use(cors())
   }
 
   routes(): void {
@@ -19,5 +21,4 @@ class App {
   }
 }
 
-
-export default new App().app
+export default new App().app;
