@@ -4,12 +4,45 @@ import database from "../../database/connection";
 import convertHourToMinutes from "../../utils/ConvertHourToMinutes";
 
 interface ScheduleItemType {
-    week_day: number;
-    from: string;
-    to: string;
+  week_day: number;
+  from: string;
+  to: string;
+}
+
+interface FiltersType {
+  week_day?: number;
+  subject?: string;
+  time?: string;
 }
 
 class ClassesController {
+  async index(req: Request, res: Response) {
+    const filters: FiltersType = req.query;
+
+    if (!filters.week_day || !filters.subject || !filters.time)
+      return res
+        .status(400)
+        .json({ error: "Missing filters to search classes." });
+
+    const timeInMinutes = convertHourToMinutes(filters.time);
+
+    const classes = await database("classes")
+      .whereExists(function () {
+        this.select("class_schedules.*")
+          .from("class_schedules")
+          .whereRaw("`class_schedules`. `class_id` = `classes`.`id`")
+          .whereRaw("`class_schedules`.`week_day`= ??", [
+            Number(filters.week_day),
+          ])
+          .whereRaw("`class_schedules`. `from` <= ??", [timeInMinutes])
+          .whereRaw("`class_schedules`. `to` > ??", [timeInMinutes]);
+      })
+      .where("classes.subject", "=", filters.subject)
+      .join("users", "classes.user_id", "=", "users.id")
+      .select(["classes.*", "users.*"]);
+    return res.json(classes);
+  }
+
   async store(req: Request, res: Response) {
     const { name, avatar, whatsapp, bio, subject, cost, schedule } = req.body;
 
