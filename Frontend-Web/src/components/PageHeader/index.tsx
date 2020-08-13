@@ -8,9 +8,14 @@ import { Header, Topbarcontainer, HeaderContent } from "./styles";
 
 interface PageHeaderProps {
   title: string;
+  description?: string;
 }
 
-const PageHeader: React.FC<PageHeaderProps> = ({ title, children }) => {
+const PageHeader: React.FC<PageHeaderProps> = ({
+  title,
+  description,
+  children,
+}) => {
   return (
     <Header>
       <Topbarcontainer>
@@ -23,6 +28,7 @@ const PageHeader: React.FC<PageHeaderProps> = ({ title, children }) => {
 
       <HeaderContent>
         <strong>{title}</strong>
+        {description && <p>{description}</p>}
         {children}
       </HeaderContent>
     </Header>
